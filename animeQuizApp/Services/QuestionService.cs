@@ -9,9 +9,12 @@ namespace MyWebAPI.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public QuestionService(ApplicationDbContext context)
+        private readonly QuizTypeService _quizTypeService;
+
+        public QuestionService(ApplicationDbContext context, QuizTypeService quizTypeService)
         {
             _context = context;
+            _quizTypeService = quizTypeService;
         }
 
         public Question GetQuestion(int id)
@@ -19,26 +22,33 @@ namespace MyWebAPI.Services
             return _context.Question.Find(id);
         }
 
-        public List<QuestionWithoutAnswerModel> GetRandomQuestions(int count)
+        public List<QuestionWithoutAnswerModel> GetRandomQuestions(int count, int quizType)
         {
-            int totalRows = _context.Question.Count();
-            Random rand = new Random();
-            var randomIndices = Enumerable.Range(0, totalRows)
-                                          .OrderBy(x => rand.Next())
-                                          .Take(count)
-                                          .ToList();
+            var questions = _context.Question
+                             .Where(q => q.QuizType == quizType)
+                             .ToList();
 
-            return _context.Question
-                            .OrderBy(q => q.Id)
-                            .Where(q => randomIndices.Contains(q.Id))
-                            .Select(entity => new QuestionWithoutAnswerModel
-                            {
-                                Id = entity.Id,
-                                QuestionText = entity.QuestionText,
-                                ImageURL = entity.ImageURL,
-                                Options = entity.Options,
-                            })
-                            .ToList();
+            _quizTypeService.increaseAttemptCount(quizType);
+            if (questions.Count < count)
+            {
+                // Handle the case where there are fewer questions available than requested
+                // You can either adjust the count or handle it according to your requirements
+                count = questions.Count;
+            }
+            Random rand = new Random();
+            var randomIndices = Enumerable.Range(0, questions.Count)
+                                        .OrderBy(x => rand.Next())
+                                        .Take(count)
+                                        .ToList();
+
+            return randomIndices.Select(index => new QuestionWithoutAnswerModel
+                                                {
+                                                    Id = questions[index].Id,
+                                                    QuestionText = questions[index].QuestionText,
+                                                    ImageURL = questions[index].ImageURL,
+                                                    Options = questions[index].Options,
+                                                })
+                                .ToList();
         }
 
         public void AddQuestion(Question question)

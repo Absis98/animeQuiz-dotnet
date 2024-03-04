@@ -13,6 +13,8 @@ namespace MyWebAPI.Data
 
          public DbSet<QuizSession> QuizSession { get; set; }
 
+         public DbSet<QuizType> QuizType {get; set;}
+
         // DbSet properties for your entities
         // public DbSet<User> Users { get; set; }
         // public DbSet<Product> Products { get; set; }

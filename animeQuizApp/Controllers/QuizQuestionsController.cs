@@ -34,12 +34,12 @@ namespace MyWebAPI.Controllers
             return Ok(question);
         }
 
-        [HttpGet("questions-list")]
-        public IActionResult GetQuestionsList()
+        [HttpGet("{userId}/questions-list/{quizTypeId}")]
+        public IActionResult GetQuestionsList(int userId, int quizTypeId)
         {
-            var randomQuestions = _questionService.GetRandomQuestions(3);
+            var randomQuestions = _questionService.GetRandomQuestions(3, quizTypeId);
             var questionIds = randomQuestions.Select(c => c.Id).ToList();
-            int sessionId = _quizSessionService.setQuizSession(questionIds);
+            int sessionId = _quizSessionService.setQuizSession(questionIds, userId, quizTypeId);
             if (randomQuestions.Count == 0)
             {
                 return NotFound();

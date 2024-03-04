@@ -1,6 +1,7 @@
 public class Question
 {
     public int Id { get; set; }
+    public int QuizType { get; set; }
     public string QuestionText { get; set; }
     public string ImageURL { get; set; }
     public string Answer { get; set; }

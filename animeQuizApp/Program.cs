@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<QuizSessionService>();
+builder.Services.AddScoped<QuizTypeService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

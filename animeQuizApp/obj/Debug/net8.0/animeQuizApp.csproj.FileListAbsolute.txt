@@ -58,3 +58,4 @@
 /Users/absis/practice projects/dotnet/animeQuiz/animeQuizApp/obj/Debug/net8.0/animeQuizApp.pdb
 /Users/absis/practice projects/dotnet/animeQuiz/animeQuizApp/obj/Debug/net8.0/animeQuizApp.genruntimeconfig.cache
 /Users/absis/practice projects/dotnet/animeQuiz/animeQuizApp/obj/Debug/net8.0/ref/animeQuizApp.dll
+/Users/absis/practice projects/dotnet/animeQuiz/animeQuizApp/obj/Debug/net8.0/animeQuizApp.sourcelink.json

@@ -15,12 +15,13 @@ namespace MyWebAPI.Services
             _context = context;
         }
 
-        public int setQuizSession(List<int> questionIds)
+        public int setQuizSession(List<int> questionIds, int userId, int quizType)
         {
             var quizSessionData = new QuizSession {
                 CreateTime = DateTime.Now,
                 Questions = string.Join(",", questionIds),
-                QuizName = "Anime"
+                QuizTypeId = quizType,
+                UserId = userId
             };
 
             _context.QuizSession.Add(quizSessionData);
@@ -40,6 +41,10 @@ namespace MyWebAPI.Services
                 // Save changes
                 _context.SaveChanges();
             }
+        }
+
+        public List<QuizSession> getSessionsByUserId(int userId) {
+            return _context.QuizSession.Where(e => e.UserId == userId).ToList();
         }
 
         
